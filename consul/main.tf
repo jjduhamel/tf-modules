@@ -64,7 +64,7 @@ resource "aws_instance" "consul" {
 
   provisioner "file" {
     source = "${ path.module }/fs"
-    destination = "/tmp"
+    destination = "/tmp/fs"
   }
 
   provisioner "remote-exec" {
@@ -72,10 +72,10 @@ resource "aws_instance" "consul" {
       "set -x",
       "sudo apt-get update && sudo apt-get install -y nginx",
       "sudo chmod 755 /usr/local/bin",
-      "sudo cp -vr /tmp/bin /usr/local/bin",
-      "sudo cp -vr /tmp/src /usr/local/src",
-      "sudo cp -vr /tmp/etc /etc",
-      "sudo rm -vrf /tmp/*",
+      "sudo cp -vr /tmp/fs/bin /usr/local/bin",
+      "sudo cp -vr /tmp/fs/src /usr/local/src",
+      "sudo cp -vr /tmp/fs/etc /etc",
+      "sudo rm -vrf /tmp/fs/",
 			"sudo mkdir -vp /var/lib/consul",
 			"sudo chown :daemon /var/lib/consul",
 			"sudo systemctl daemon-reload",
