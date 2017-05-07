@@ -87,3 +87,4 @@ resource "aws_instance" "swarm_manager" {
 }
 
 output "ip_address" { value = "${ aws_instance.swarm_manager.private_ip }" }
+output "managers" { value = "${ aws_instance.swarm_manager.*.private_ip }" }
