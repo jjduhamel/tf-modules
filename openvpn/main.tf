@@ -35,8 +35,8 @@ resource "aws_security_group" "openvpn" {
   }
 }
 
-resource "aws_iam_instance_profile" "consul" {
-  name = "consul"
+resource "aws_iam_instance_profile" "openvpn" {
+  name = "openvpn"
   roles = [ "${ compact(split(",", var.iam_roles)) }" ]
 }
 
