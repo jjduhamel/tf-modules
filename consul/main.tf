@@ -44,7 +44,7 @@ resource "aws_security_group" "consul" {
 
 resource "aws_iam_instance_profile" "consul" {
   name = "consul"
-  roles = [ "${ split(",", var.iam_roles) }" ]
+  roles = [ "${ compact(split(",", var.iam_roles)) }" ]
 }
 
 resource "aws_instance" "consul" {
@@ -87,4 +87,6 @@ resource "aws_instance" "consul" {
   }
 }
 
-output "ip_address" { value = "${ aws_instance.consul.private_ip }" }
+output "ip_address" { value = "${ aws_eip.consul.private_ip }" }
+output "instance_profile" { value = "${ aws_iam_instance_profile.consul.id }" }
+output "security_group" { value = "aws_security_group.consul.id" }
