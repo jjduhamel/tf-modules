@@ -87,6 +87,10 @@ resource "aws_instance" "consul" {
   }
 }
 
+resource "aws_eip" "consul" {
+  instance = "${ aws_instance.consul.id }"
+}
+
 output "ip_address" { value = "${ aws_eip.consul.private_ip }" }
 output "instance_profile" { value = "${ aws_iam_instance_profile.consul.id }" }
 output "security_group" { value = "aws_security_group.consul.id" }
