@@ -1,0 +1,12 @@
+#
+# Proxy traffic to Consul UI
+#
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  server_name consul.homebrewpcb.com;
+  location / {
+    # Web UI is running on port 8500
+    proxy_pass http://127.0.0.1:8500;
+  }
+}
