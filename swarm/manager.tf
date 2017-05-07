@@ -63,7 +63,7 @@ data "template_file" "swarm_manager" {
   count = "${ var.manager_count }"
   template = "${ file("${ path.module }/cloud-config.manager.yaml") }"
   vars {
-    IP_ADDRESS = "${ format("10.0.1.%03d", 100+count.index) }"
+    IP_ADDRESS = "${ format("10.0.2.%03d", 100+count.index) }"
   }
 }
 
@@ -77,7 +77,7 @@ resource "aws_instance" "swarm_manager" {
   vpc_security_group_ids = [
     "${ aws_security_group.swarm_manager.id }"
   ]
-  private_ip = "${ format("10.0.1.%03d", 100+count.index) }"
+  private_ip = "${ format("10.0.2.%03d", 100+count.index) }"
 
   tags {
     Name = "Swarm Manager" 

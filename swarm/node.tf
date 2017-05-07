@@ -56,7 +56,7 @@ data "template_file" "swarm_node" {
   count = "${ var.node_count }"
   template = "${ file("${ path.module }/cloud-config.node.yaml") }"
   vars {
-    IP_ADDRESS = "${ format("10.0.1.%03d", 200+count.index) }"
+    IP_ADDRESS = "${ format("10.0.2.%03d", 200+count.index) }"
   }
 }
 
@@ -70,7 +70,7 @@ resource "aws_instance" "swarm_node" {
   vpc_security_group_ids = [
     "${ aws_security_group.swarm_node.id }"
   ]
-  private_ip = "${ format("10.0.1.%03d", 200+count.index) }"
+  private_ip = "${ format("10.0.2.%03d", 200+count.index) }"
 
   tags {
     Name = "Swarm Node"
