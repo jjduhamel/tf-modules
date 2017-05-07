@@ -21,11 +21,6 @@ This module sets up an OpenVPN server based on Debian.
 *Usage:*
 
 ```hcl
-resource "aws_iam_instance_profile" "openvpn" {
-  name = "openvpn"
-  roles = [ "credstash" ]
-}
-
 module "openvpn" {
   source = "github.com/jjduhamel/tf-modules//openvpn"
   ami_id = "${ var.debian_ami }"

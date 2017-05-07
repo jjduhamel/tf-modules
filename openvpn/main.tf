@@ -57,15 +57,16 @@ resource "aws_instance" "openvpn" {
   }
 
   provisioner "file" {
-    source = "${ path.module }/etc"
-    destination = "/tmp/etc"
+    source = "${ path.module }/fs"
+    destination = "/tmp/fs"
   }
 
   provisioner "remote-exec" {
     inline = [
       "set -x",
-      "sudo cp -vr /tmp/etc/. /etc && rm -rf /tmp/etc",
       "sudo apt-get update",
+      "sudo cp -vr /tmp/fs/etc/* /etc",
+      "sudo rm -vrf /tmp/fs",
       "sudo touch /etc/openvpn/ca.crt",
       "sudo touch /etc/openvpn/server.crt",
       "sudo touch /etc/openvpn/server.key",
@@ -86,6 +87,7 @@ resource "aws_instance" "openvpn" {
 
   provisioner "remote-exec" {
     inline = [
+			"sudo systemctl daemon-reload",
       "sudo systemctl enable openvpn@local",
       "sudo systemctl start openvpn@local",
       "set +x"

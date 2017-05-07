@@ -11,7 +11,7 @@ resource "aws_security_group" "consul" {
   name = "consul"
   vpc_id = "${ var.vpc_id }"
   description = "Consul by Hashicorp"
-  tags { Name = "consul" }
+  tags { Name = "Consul" }
 
   ingress {
     protocol = "tcp"
