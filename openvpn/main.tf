@@ -6,6 +6,7 @@ variable "keypair" { default="" }
 variable "region" { default="us-east-1" }
 variable "vpc_id" {}
 variable "subnet_id" {}
+variable "instance_profile_id" { default="" }
 
 resource "aws_security_group" "openvpn" {
   name = "openvpn"
@@ -35,16 +36,11 @@ resource "aws_security_group" "openvpn" {
   }
 }
 
-resource "aws_iam_instance_profile" "openvpn" {
-  name = "openvpn"
-  roles = [ "${ split(",", var.iam_roles) }" ]
-}
-
 resource "aws_instance" "openvpn" {
   ami = "${ var.ami_id }"
   instance_type = "t2.micro"
   key_name = "${ var.keypair }"
-  iam_instance_profile = "${ aws_iam_instance_profile.openvpn.id }"
+  iam_instance_profile = "${ var.instance_profile_id }"
   subnet_id = "${ var.subnet_id }"
   vpc_security_group_ids = [ "${ aws_security_group.openvpn.id }" ]
   tags { Name = "OpenVPN" }
