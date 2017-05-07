@@ -78,6 +78,15 @@ resource "aws_instance" "consul" {
       "sudo rm -vrf /tmp/fs",
 			"sudo mkdir -vp /var/lib/consul",
 			"sudo chown :daemon /var/lib/consul",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [ "${ compact(split(",", var.remote_exec)) }" ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
 			"sudo systemctl daemon-reload",
 			"sudo systemctl enable consul",
 			"sudo systemctl start consul",
