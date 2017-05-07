@@ -90,4 +90,4 @@ resource "aws_eip" "swarm_manager" {
   instance = "${ aws_instance.swarm_manager.id }"
 }
 
-output "public_ip" { value = "${ aws_eip.swarm_manager.public_ip }" }
+output "ip_address" { value = "${ aws_eip.swarm_manager.private_ip }" }
