@@ -86,8 +86,4 @@ resource "aws_instance" "swarm_manager" {
   user_data = "${ element(data.template_file.swarm_manager.*.rendered, count.index) }"
 }
 
-resource "aws_eip" "swarm_manager" {
-  instance = "${ aws_instance.swarm_manager.id }"
-}
-
 output "ip_address" { value = "${ aws_eip.swarm_manager.private_ip }" }
