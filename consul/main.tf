@@ -75,6 +75,7 @@ resource "aws_instance" "consul" {
       "sudo cp -vr /tmp/bin /usr/local/bin",
       "sudo cp -vr /tmp/src /usr/local/src",
       "sudo cp -vr /tmp/etc /etc",
+      "sudo rm -vrf /tmp/*",
 			"sudo mkdir -vp /var/lib/consul",
 			"sudo chown :daemon /var/lib/consul",
 			"sudo systemctl daemon-reload",
