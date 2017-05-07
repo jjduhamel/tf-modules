@@ -1,0 +1,17 @@
+#cloud-config
+rancher:
+  console: ubuntu
+  docker:
+    extra_args: [
+      "-H=tcp://0.0.0.0:2375",
+      "-H=unix:///var/run/docker.sock",
+      "--cluster-store consul://consul.homebrewpcb.com",
+      "--cluster-advertise eth0:2375"
+    ]
+  services:
+    swarm-node:
+      image: swarm
+      command: "join --advertise=${IP_ADDRESS}:2375 consul://consul.homebrewpcb.com"
+      ports: [ "4000:4000" ]
+      labels:
+        io.rancher.os.after: docker
