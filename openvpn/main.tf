@@ -73,6 +73,15 @@ resource "aws_instance" "openvpn" {
       "echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections",
       "echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections",
       "sudo apt-get install -y openvpn iptables-persistent",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = []
+  }
+
+  provisioner "remote-exec" {
+    inline = [
       "sudo systemctl enable openvpn@local",
       "sudo systemctl start openvpn@local",
       "set +x"
