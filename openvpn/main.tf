@@ -1,12 +1,11 @@
 variable "ami_id" { default = "ami-fde96b9d" }
 variable "ami_user" { default = "admin" }
-variable "iam_roles" { default="" }
-variable "remote_exec" { default="" }
 variable "keypair" { default="" }
+variable "instance_profile" { default="" }
+variable "remote_exec" { default="" }
 variable "region" { default="us-east-1" }
 variable "vpc_id" {}
 variable "subnet_id" {}
-variable "instance_profile_id" { default="" }
 
 resource "aws_security_group" "openvpn" {
   name = "openvpn"
@@ -40,7 +39,7 @@ resource "aws_instance" "openvpn" {
   ami = "${ var.ami_id }"
   instance_type = "t2.micro"
   key_name = "${ var.keypair }"
-  iam_instance_profile = "${ var.instance_profile_id }"
+  iam_instance_profile = "${ var.instance_profile }"
   subnet_id = "${ var.subnet_id }"
   vpc_security_group_ids = [ "${ aws_security_group.openvpn.id }" ]
   tags { Name = "OpenVPN" }
@@ -77,7 +76,7 @@ resource "aws_instance" "openvpn" {
   }
 
   provisioner "remote-exec" {
-    inline = []
+    inline = [ "${ split(",", var.remote_exec) }" ]
   }
 
   provisioner "remote-exec" {
