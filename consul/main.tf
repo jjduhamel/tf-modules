@@ -79,8 +79,8 @@ resource "aws_instance" "consul" {
 			"sudo mkdir -vp /var/lib/consul",
 			"sudo chown :daemon /var/lib/consul",
 			"sudo systemctl daemon-reload",
-			"sudo systemctl enable consul-server",
-			"sudo systemctl start consul-server",
+			"sudo systemctl enable consul",
+			"sudo systemctl start consul",
 			"sudo systemctl enable nginx",
 			"sudo systemctl start nginx",
       "set +x"
@@ -88,10 +88,6 @@ resource "aws_instance" "consul" {
   }
 }
 
-resource "aws_eip" "consul" {
-  instance = "${ aws_instance.consul.id }"
-}
-
-output "ip_address" { value = "${ aws_eip.consul.private_ip }" }
+output "ip_address" { value = "${ aws_instance.consul.private_ip }" }
 output "instance_profile" { value = "${ aws_iam_instance_profile.consul.id }" }
 output "security_group" { value = "aws_security_group.consul.id" }

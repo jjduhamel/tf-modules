@@ -4,8 +4,6 @@ Requires=network-online.target
 After=network.target
 
 [Service]
-User=nobody
-Group=daemon
 PIDFile=/run/consul.pid
 Environment=GOMAXPROCS=2
 ExecStartPre=/usr/local/bin/consul configtest -config-dir=/etc/consul.d
