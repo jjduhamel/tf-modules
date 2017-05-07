@@ -3,7 +3,6 @@ variable "ami_user" { default = "admin" }
 variable "keypair" { default="" }
 variable "iam_roles" { default="" }
 variable "remote_exec" { default="" }
-variable "region" { default="us-east-1" }
 variable "vpc_id" {}
 variable "subnet_id" {}
 
