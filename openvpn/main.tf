@@ -78,10 +78,6 @@ resource "aws_instance" "openvpn" {
       "set +x"
     ]
   }
-
-  provisioner "remote-exec" {
-    inline = [ "${ split(",", var.remote_exec) }" ]
-  }
 }
 
 resource "aws_eip" "openvpn" {
