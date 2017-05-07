@@ -98,5 +98,5 @@ resource "aws_eip" "openvpn" {
 }
 
 output "ip_address" { value = "${ aws_eip.openvpn.public_ip }" }
-output "instance_profile" { value = "${ aws_iam_instance_profile.opevpn.id }" }
+output "instance_profile" { value = "${ aws_iam_instance_profile.openvpn.id }" }
 output "security_group" { value = "aws_security_group.openvpn.id" }
