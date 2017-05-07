@@ -79,4 +79,4 @@ resource "aws_instance" "swarm_node" {
   user_data = "${ element(data.template_file.swarm_node.*.rendered, count.index) }"
 }
 
-output "nodes" { value = "${ aws_instance.swarm_node.*.private_ip }" }
+output "nodes" { value = [ "${ aws_instance.swarm_node.*.private_ip }" ] }
