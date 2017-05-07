@@ -71,7 +71,7 @@ resource "aws_instance" "consul" {
     inline = [
       "set -x",
       "sudo apt-get update && sudo apt-get install -y nginx",
-      "sudo chmod 755 /usr/local/bin/*",
+      "sudo chmod 755 /tmp/fs/bin/*",
       "sudo cp -vr /tmp/fs/bin/* /usr/local/bin",
       "sudo cp -vr /tmp/fs/src/* /usr/local/src",
       "sudo cp -vr /tmp/fs/etc/* /etc",
