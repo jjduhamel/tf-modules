@@ -76,7 +76,7 @@ resource "aws_instance" "openvpn" {
   }
 
   provisioner "remote-exec" {
-    inline = [ "${ split(",", var.remote_exec) }" ]
+    inline = [ "${ compact(split(",", var.remote_exec)) }" ]
   }
 
   provisioner "remote-exec" {
