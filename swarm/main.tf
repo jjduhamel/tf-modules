@@ -80,6 +80,7 @@ resource "aws_instance" "swarm_manager" {
     type = "ssh"
     user = "${ var.ami_user }"
     private_key = "${ file("~/.ssh/id_rsa") }"
+    timeout = "5m"
   }
 
   provisioner "remote-exec" {
