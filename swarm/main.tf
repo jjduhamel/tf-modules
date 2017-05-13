@@ -101,5 +101,5 @@ resource "aws_instance" "swarm_worker" {
   tags { Name = "Swarm Worker" }
 }
 
-output "managers" { value = [ "${ aws_instance.swarm.*.private_ip }" ] }
+output "managers" { value = [ "${ aws_instance.swarm_manager.*.private_ip }" ] }
 output "workers" { value = [ "${ aws_instance.swarm_worker.*.private_ip }" ] }
