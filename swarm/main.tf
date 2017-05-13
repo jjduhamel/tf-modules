@@ -85,7 +85,9 @@ resource "aws_instance" "swarm_manager" {
 
   provisioner "remote-exec" {
     inline = [
-			"docker swarm init --advertise-addr ${ var.hostname }"
+      "set -x",
+			"sudo docker swarm init --advertise-addr ${ var.hostname }",
+      "set +x"
     ]
   }
 }
