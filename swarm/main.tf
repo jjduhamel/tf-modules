@@ -86,7 +86,9 @@ resource "aws_instance" "swarm_manager" {
   provisioner "remote-exec" {
     inline = [
       "set -x",
-			"sudo docker swarm init --advertise-addr eth0:2377",
+      "sleep 30",
+			"docker swarm init --advertise-addr eth0:2377",
+      "docker swarm join-token manager",
       "set +x"
     ]
   }
@@ -112,7 +114,8 @@ resource "aws_instance" "swarm_worker" {
   provisioner "remote-exec" {
     inline = [
       "set -x",
-			"sudo docker swarm join --token ${ var.worker_token } ${ aws_instance.swarm_manager.private_ip }:2377",
+      "sleep 30",
+			"docker swarm join --token ${ var.worker_token } ${ aws_instance.swarm_manager.private_ip }:2377",
       "set +x"
     ]
   }
