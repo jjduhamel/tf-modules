@@ -87,6 +87,8 @@ resource "aws_instance" "swarm_manager" {
     inline = [
       "set -x",
       "sleep 30",
+      "sudo ros config set rancher.docker.extra_args ["-H=tcp://0.0.0.0:2375","-H=unix:///var/run/docker.sock"]",
+      "sudo system-docker restart docker",
 			"docker swarm init --advertise-addr eth0:2377",
       "docker swarm join-token manager",
       "set +x"
