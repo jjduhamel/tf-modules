@@ -64,18 +64,13 @@ resource "aws_iam_instance_profile" "swarm" {
   roles = [ "${ compact(split(",", var.iam_roles)) }" ]
 }
 
-data "template_file" "swarm" {
-  count = "${ var.manager_count }"
-  template = "${ file("${ path.module }/cloud-config.yaml") }"
-}
-
 resource "aws_instance" "swarm_manager" {
   count = "${ var.manager_count }"
   ami = "${ var.ami_id }"
-  iam_instance_profile = "${ aws_iam_instance_profile.swarm.id }"
   key_name = "${ var.keypair }"
   instance_type = "${ var.instance_type }"
-  user_data = "${ data.template_file.swarm }"
+  iam_instance_profile = "${ aws_iam_instance_profile.swarm.id }"
+  user_data = "${ var.user_data }"
   subnet_id = "${ var.subnet_id }"
   vpc_security_group_ids = [ "${ aws_security_group.swarm.id }" ]
   tags { Name = "Swarm Manager" }
@@ -96,10 +91,10 @@ resource "aws_instance" "swarm_manager" {
 resource "aws_instance" "swarm_worker" {
   count = "${ var.worker_count }"
   ami = "${ var.ami_id }"
-  iam_instance_profile = "${ aws_iam_instance_profile.swarm.id }"
   key_name = "${ var.keypair }"
   instance_type = "${ var.instance_type }"
-  user_data = "${ data.template_file.swarm }"
+  iam_instance_profile = "${ aws_iam_instance_profile.swarm.id }"
+  user_data = "${ var.user_data }"
   subnet_id = "${ var.subnet_id }"
   vpc_security_group_ids = [ "${ aws_security_group.swarm.id }" ]
   tags { Name = "Swarm Worker" }
