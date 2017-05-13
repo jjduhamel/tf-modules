@@ -4,6 +4,7 @@ variable "iam_roles" { default="" }
 variable "instance_type" { default="t2.micro" }
 variable "keypair" {}
 variable "hostname" {}
+variable "user_data" { default = "" }
 variable "vpc_id" {}
 variable "subnet_id" {}
 
