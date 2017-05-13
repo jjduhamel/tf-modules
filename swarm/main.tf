@@ -8,7 +8,9 @@ variable "vpc_id" {}
 variable "subnet_id" {}
 
 variable "manager_count" { default=1 }
+variable "manager_token" { default="" }
 variable "worker_count" { default=0 }
+variable "worker_token" { default="" }
 
 resource "aws_security_group" "swarm" {
   name = "swarm"
@@ -65,7 +67,7 @@ resource "aws_iam_instance_profile" "swarm" {
 }
 
 resource "aws_instance" "swarm_manager" {
-  count = "${ var.manager_count }"
+  //count = "${ var.manager_count }"
   ami = "${ var.ami_id }"
   key_name = "${ var.keypair }"
   instance_type = "${ var.instance_type }"
@@ -79,7 +81,6 @@ resource "aws_instance" "swarm_manager" {
     type = "ssh"
     user = "${ var.ami_user }"
     private_key = "${ file("~/.ssh/id_rsa") }"
-    timeout = "5m"
   }
 
   provisioner "remote-exec" {
@@ -101,6 +102,20 @@ resource "aws_instance" "swarm_worker" {
   subnet_id = "${ var.subnet_id }"
   vpc_security_group_ids = [ "${ aws_security_group.swarm.id }" ]
   tags { Name = "Swarm Worker" }
+
+  connection {
+    type = "ssh"
+    user = "${ var.ami_user }"
+    private_key = "${ file("~/.ssh/id_rsa") }"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "set -x",
+			"sudo docker swarm join --token ${ var.worker_token } ${ aws_instance.swarm_manager.private_ip }:2377",
+      "set +x"
+    ]
+  }
 }
 
 output "managers" { value = [ "${ aws_instance.swarm_manager.*.private_ip }" ] }
