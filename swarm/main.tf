@@ -3,7 +3,6 @@ variable "ami_user" { default="rancher" }
 variable "iam_roles" { default="" }
 variable "instance_type" { default="t2.micro" }
 variable "keypair" {}
-variable "hostname" {}
 variable "user_data" { default = "" }
 variable "vpc_id" {}
 variable "subnet_id" {}
@@ -86,7 +85,7 @@ resource "aws_instance" "swarm_manager" {
   provisioner "remote-exec" {
     inline = [
       "set -x",
-			"sudo docker swarm init --advertise-addr ${ var.hostname }",
+			"sudo docker swarm init --advertise-addr eth0:2377",
       "set +x"
     ]
   }
